@@ -4,18 +4,24 @@ namespace SurvivalExample
 {
     public class SystemManager : MonoBehaviour
     {
-        private ISystem[] _systems;
+        private BaseSystem[] _systems;
 
         private void Start()
         {
-            _systems = new ISystem[]
+            _systems = new BaseSystem[]
             {
 #if UNITY_STANDALONE || UNITY_EDITOR
                 new StandaloneInputSystem(),
 #elif UNITY_ANDROID || UNITY_IOS
 // TODO create mobile input system
 #endif
+
+                new CreateCameraSystem(),
                 new CreateLevelSystem(),
+                new CreatePlayerSystem(),
+
+                new PlayerMoveSystem(),
+                new CameraFollowSystem(),
             };
         }
 

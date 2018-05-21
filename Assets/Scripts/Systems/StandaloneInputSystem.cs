@@ -2,30 +2,32 @@
 
 namespace SurvivalExample
 {
-    public class StandaloneInputSystem : ISystem
+    public class StandaloneInputSystem : BaseSystem
     {
-        public void Update()
+        public override void Update()
         {
+            base.Update();
             CheckInput();
         }
 
         private void CheckInput()
         {
-            var direction = Vector2.zero;
+            var direction = Vector3.zero;
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-                direction += Vector2.up;
+                direction += Vector3.forward;
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                direction += Vector2.left;
+                direction += Vector3.left;
 
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-                direction += Vector2.down;
+                direction += Vector3.back;
 
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                direction += Vector2.right;
+                direction += Vector3.right;
 
-            // TODO publish move event
+            var playerMoveEvent = new PlayerMoveEvent(direction);
+            EventManager.Publish(playerMoveEvent);
         }
     }
 }

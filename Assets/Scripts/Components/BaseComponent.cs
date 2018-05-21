@@ -1,6 +1,6 @@
 ﻿namespace SurvivalExample
 {
-    public interface IComponent
+    public class BaseComponent
     {
     }
 }
