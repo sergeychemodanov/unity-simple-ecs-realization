@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace SurvivalExample
 {
@@ -9,7 +10,11 @@ namespace SurvivalExample
 
         public CameraFollowSystem()
         {
-            var playerEntity = EntityManager.GetFirstEntityWithComponent<IsPlayerComponent>();
+            var playerEntity = EntityManager.Entities
+                .WithComponent<PlayerHeroComponent>()
+                .WithComponent<SceneObjectComponent>()
+                .FirstOrDefault();
+
             if (playerEntity != null)
             {
                 var playerSceneObjectComponent = playerEntity.GetComponent<SceneObjectComponent>();
@@ -17,7 +22,11 @@ namespace SurvivalExample
                     _playerTransform = playerSceneObjectComponent.GameObject.transform;
             }
 
-            var cameraEntity = EntityManager.GetFirstEntityWithComponent<IsCameraComponent>();
+            var cameraEntity = EntityManager.Entities
+                .WithComponent<MainCameraComponent>()
+                .WithComponent<SceneObjectComponent>()
+                .FirstOrDefault();
+
             if (cameraEntity != null)
             {
                 var cameraSceneObjectComponent = cameraEntity.GetComponent<SceneObjectComponent>();

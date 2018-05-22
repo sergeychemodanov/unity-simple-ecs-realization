@@ -10,11 +10,9 @@ namespace SurvivalExample
         public SceneObjectComponent(string resourcePath)
         {
             ResourcePath = resourcePath;
-        }
 
-        public void SetGameObject(GameObject gameObject)
-        {
-            GameObject = gameObject;
+            var prefab = Resources.Load<GameObject>(ResourcePath);
+            GameObject = Object.Instantiate(prefab);
         }
     }
 }

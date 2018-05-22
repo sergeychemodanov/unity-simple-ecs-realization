@@ -4,6 +4,7 @@
     {
         public const string GroundPrefabResourcePath = "Ground";
         public const string PlayerPrefabResourcePath = "Player";
-        public const string CameraPrefabResourcePath = "Camera";
+        public const string MainCameraContainerPrefabResourcePath = "MainCameraContainer";
+        public const string UiCameraContainerPrefabResourcePath = "UiCameraContainer";
     }
 }

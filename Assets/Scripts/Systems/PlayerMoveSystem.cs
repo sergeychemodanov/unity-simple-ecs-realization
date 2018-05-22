@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace SurvivalExample
 {
@@ -10,7 +11,11 @@ namespace SurvivalExample
 
         public PlayerMoveSystem()
         {
-            var playerEntity = EntityManager.GetFirstEntityWithComponent<IsPlayerComponent>();
+            var playerEntity = EntityManager.Entities
+                .WithComponent<PlayerHeroComponent>()
+                .WithComponent<SceneObjectComponent>()
+                .WithComponent<MovementComponent>().FirstOrDefault();
+
             if (playerEntity != null)
             {
                 _playerSceneObjectComponent = playerEntity.GetComponent<SceneObjectComponent>();
@@ -27,7 +32,8 @@ namespace SurvivalExample
                 return;
 
             var playerTransform = _playerSceneObjectComponent.GameObject.transform;
-            playerTransform.Translate(eventData.Direction * _playerMovementComponent.Speed * Time.deltaTime);
+            playerTransform.Translate(eventData.Direction * _playerMovementComponent.Speed * Time.deltaTime, Space.World);
+            playerTransform.LookAt(playerTransform.position + eventData.Direction);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace SurvivalExample
 // TODO create mobile input system
 #endif
 
-                new CreateCameraSystem(),
+                new CreateCamerasSystem(),
                 new CreateLevelSystem(),
                 new CreatePlayerSystem(),
 

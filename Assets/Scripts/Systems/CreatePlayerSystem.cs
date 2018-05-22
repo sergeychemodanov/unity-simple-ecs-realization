@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
-
-namespace SurvivalExample
+﻿namespace SurvivalExample
 {
     public class CreatePlayerSystem : BaseSystem
     {
         public CreatePlayerSystem()
         {
-            var playerComponents = new List<BaseComponent>
-            {
-                new IsPlayerComponent(),
-                new SceneObjectComponent(Constants.PlayerPrefabResourcePath),
-                new MovementComponent(5f),
-            };
-
-            EntityManager.Create(playerComponents);
+            EntityManager.Create()
+                .AddComponent(new PlayerHeroComponent())
+                .AddComponent(new SceneObjectComponent(Constants.PlayerPrefabResourcePath))
+                .AddComponent(new MovementComponent(5f));
         }
     }
 }
