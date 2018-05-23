@@ -4,15 +4,13 @@ namespace SurvivalExample
 {
     public class SceneObjectComponent : BaseComponent
     {
-        public string ResourcePath { get; private set; }
+        public GameObject Prefab { get; private set; }
         public GameObject GameObject { get; private set; }
 
-        public SceneObjectComponent(string resourcePath)
+        public SceneObjectComponent(GameObject prefab, Transform parent = null, bool worldPositionStays = false)
         {
-            ResourcePath = resourcePath;
-
-            var prefab = Resources.Load<GameObject>(ResourcePath);
-            GameObject = Object.Instantiate(prefab);
+            Prefab = prefab;
+            GameObject = Object.Instantiate(prefab, parent, worldPositionStays);
         }
 
         public override void OnDestroy()

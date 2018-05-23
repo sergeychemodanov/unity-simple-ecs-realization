@@ -14,10 +14,10 @@ namespace SurvivalExample
         public override void Update()
         {
             base.Update();
-            CheckInput();
+            CheckMoveInput();
         }
 
-        private void CheckInput()
+        private void CheckMoveInput()
         {
             var direction = Vector3.zero;
 

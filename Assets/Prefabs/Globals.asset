@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263baf966b710234fb22ba758ee8239b, type: 3}
+  m_Name: Globals
+  m_EditorClassIdentifier: 
+  GroundPrefab: {fileID: 1607541031541224, guid: cbc70a9107dc65549ac25bcaf68d01eb,
+    type: 2}
+  FloorCanBuildedPrefab: {fileID: 1852911326495948, guid: 4f2847bfb08874e43aab941014ce16d7,
+    type: 2}
+  FloorBuildedPrefab: {fileID: 1136954646608296, guid: 7f5bcd9f3e2dbc446850c5037356a2e5,
+    type: 2}
+  PlayerHeroPrefab: {fileID: 1894535027873742, guid: 19c7dd4ab5e45e042b1315b6e788b4b9,
+    type: 2}
+  MainCameraContainerPrefab: {fileID: 1249007726044686, guid: da5460e0c4c17844686c1a6852167327,
+    type: 2}
+  UiCameraContainerPrefab: {fileID: 1305768719705982, guid: ae32c55cb2973be4483f84b6cb60ef23,
+    type: 2}
+  UiButtonPrefab: {fileID: 1753299249405466, guid: ce3644a42ef975a46998366aa2f3c754,
+    type: 2}
+  BuildingZoneSize: {x: 5, y: 2, z: 10}
+  MinBuildingDistance: 5
