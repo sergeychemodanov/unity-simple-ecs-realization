@@ -2,15 +2,15 @@
 {
     public class CreateCamerasSystem : BaseSystem
     {
-        public CreateCamerasSystem()
+        public CreateCamerasSystem(EntityManager entityManager)
         {
             // main camera
-            EntityManager.Create()
+            entityManager.Create()
                 .AddComponent(new SceneObjectComponent(Constants.MainCameraContainerPrefabResourcePath))
                 .AddComponent(new MainCameraComponent());
 
             // ui camera
-            EntityManager.Create()
+            entityManager.Create()
                 .AddComponent(new SceneObjectComponent(Constants.UiCameraContainerPrefabResourcePath))
                 .AddComponent(new UiCameraComponent());
         }

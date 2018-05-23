@@ -1,10 +1,10 @@
 ﻿namespace SurvivalExample
 {
-    public class CreatePlayerSystem : BaseSystem
+    public class CreatePlayerHeroSystem : BaseSystem
     {
-        public CreatePlayerSystem()
+        public CreatePlayerHeroSystem(EntityManager entityManager)
         {
-            EntityManager.Create()
+            entityManager.Create()
                 .AddComponent(new PlayerHeroComponent())
                 .AddComponent(new SceneObjectComponent(Constants.PlayerPrefabResourcePath))
                 .AddComponent(new MovementComponent(5f));

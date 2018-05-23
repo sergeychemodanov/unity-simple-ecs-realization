@@ -4,6 +4,13 @@ namespace SurvivalExample
 {
     public class StandaloneInputSystem : BaseSystem
     {
+        private readonly EventManager _eventManager;
+
+        public StandaloneInputSystem(EventManager eventManager)
+        {
+            _eventManager = eventManager;
+        }
+
         public override void Update()
         {
             base.Update();
@@ -27,7 +34,7 @@ namespace SurvivalExample
                 direction += Vector3.right;
 
             var playerMoveEvent = new PlayerMoveEvent(direction);
-            EventManager.Publish(playerMoveEvent);
+            _eventManager.Publish(playerMoveEvent);
         }
     }
 }

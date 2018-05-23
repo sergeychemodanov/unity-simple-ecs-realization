@@ -8,10 +8,9 @@ namespace SurvivalExample
         private readonly SceneObjectComponent _playerSceneObjectComponent;
         private readonly MovementComponent _playerMovementComponent;
 
-
-        public PlayerMoveSystem()
+        public PlayerMoveSystem(EntityManager entityManager, EventManager eventManager)
         {
-            var playerEntity = EntityManager.Entities
+            var playerEntity = entityManager.Entities
                 .WithComponent<PlayerHeroComponent>()
                 .WithComponent<SceneObjectComponent>()
                 .WithComponent<MovementComponent>().FirstOrDefault();
@@ -22,9 +21,8 @@ namespace SurvivalExample
                 _playerMovementComponent = playerEntity.GetComponent<MovementComponent>();
             }
 
-            EventManager.Subscribe<PlayerMoveEvent>(OnPlayerMove);
+            eventManager.Subscribe<PlayerMoveEvent>(OnPlayerMove);
         }
-
 
         private void OnPlayerMove(PlayerMoveEvent eventData)
         {

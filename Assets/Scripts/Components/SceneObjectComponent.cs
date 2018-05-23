@@ -14,5 +14,12 @@ namespace SurvivalExample
             var prefab = Resources.Load<GameObject>(ResourcePath);
             GameObject = Object.Instantiate(prefab);
         }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (GameObject != null)
+                Object.Destroy(GameObject);
+        }
     }
 }

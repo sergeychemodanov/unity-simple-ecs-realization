@@ -2,9 +2,9 @@
 {
     public class CreateLevelSystem : BaseSystem
     {
-        public CreateLevelSystem()
+        public CreateLevelSystem(EntityManager entityManager)
         {
-            EntityManager.Create().AddComponent(new SceneObjectComponent(Constants.GroundPrefabResourcePath));
+            entityManager.Create().AddComponent(new SceneObjectComponent(Constants.GroundPrefabResourcePath));
         }
     }
 }

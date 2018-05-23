@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SurvivalExample
 {
-    public static class EntitiesExtensions
+    public static class EntityExtensions
     {
         public static List<BaseEntity> WithComponent<T>(this List<BaseEntity> entities)
         {

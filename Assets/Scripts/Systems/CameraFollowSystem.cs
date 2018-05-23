@@ -8,9 +8,9 @@ namespace SurvivalExample
         private readonly Transform _playerTransform;
         private readonly Transform _cameraTransform;
 
-        public CameraFollowSystem()
+        public CameraFollowSystem(EntityManager entityManager, EventManager eventManager)
         {
-            var playerEntity = EntityManager.Entities
+            var playerEntity = entityManager.Entities
                 .WithComponent<PlayerHeroComponent>()
                 .WithComponent<SceneObjectComponent>()
                 .FirstOrDefault();
@@ -22,7 +22,7 @@ namespace SurvivalExample
                     _playerTransform = playerSceneObjectComponent.GameObject.transform;
             }
 
-            var cameraEntity = EntityManager.Entities
+            var cameraEntity = entityManager.Entities
                 .WithComponent<MainCameraComponent>()
                 .WithComponent<SceneObjectComponent>()
                 .FirstOrDefault();
@@ -34,7 +34,7 @@ namespace SurvivalExample
                     _cameraTransform = cameraSceneObjectComponent.GameObject.transform;
             }
 
-            EventManager.Subscribe<PlayerMoveEvent>(OnPlayerMove);
+            eventManager.Subscribe<PlayerMoveEvent>(OnPlayerMove);
         }
 
         private void OnPlayerMove(PlayerMoveEvent eventdata)
