@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SurvivalExample
 {
@@ -28,6 +29,16 @@ namespace SurvivalExample
                 component.OnDestroy();
 
             _entities.Remove(entity);
+        }
+    }
+
+    public static class EntityExtensions
+    {
+        public static List<BaseEntity> WithComponent<T>(this List<BaseEntity> entities)
+        {
+            return (from entity in entities
+                    where entity.Components.Any(c => c is T)
+                    select entity).ToList();
         }
     }
 }

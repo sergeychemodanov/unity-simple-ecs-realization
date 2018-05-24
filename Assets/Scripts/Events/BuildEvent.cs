@@ -1,6 +1,6 @@
 ﻿namespace SurvivalExample
 {
-    public class BuildEvent
+    public struct BuildEvent
     {
     }
 }

@@ -4,16 +4,18 @@ namespace SurvivalExample
 {
     public class BuildingZoneInitializeSystem : BaseSystem
     {
-        public BuildingZoneInitializeSystem(EntityManager entityManager, Globals globals)
+        public BuildingZoneInitializeSystem(EntityManager entityManager, Configs configs)
         {
-            for (var x = 0; x < globals.BuildingZoneSize.x; x++)
+            for (var x = 0; x < configs.BuildingZoneSize.x; x++)
             {
-                for (var y = 0; y < globals.BuildingZoneSize.y; y++)
+                for (var y = 0; y < configs.BuildingZoneSize.y; y++)
                 {
-                    for (var z = 0; z < globals.BuildingZoneSize.z; z++)
+                    for (var z = 0; z < configs.BuildingZoneSize.z; z++)
                     {
+                        var position = new Vector3(x * configs.CellSize, y * configs.CellSize, z * configs.CellSize);
                         entityManager.Create()
-                            .AddComponent(new BuildingZoneCellComponent(new Vector3(x, y, z)));
+                            .AddComponent(new BuildingZoneCellComponent(position))
+                            .AddComponent(new SceneObjectComponent(configs.BuildingZoneCellPrefab, position));
                     }
                 }
             }

@@ -26,14 +26,38 @@ namespace SurvivalExample
 
         public BaseEntity RemoveComponent(BaseComponent component)
         {
+            component.OnDestroy();
             Components.Remove(component);
+            return this;
+        }
+
+        public BaseEntity RemoveComponents<T>()
+        {
+            var listToRemove = new List<BaseComponent>();
+
+            var components = Components.Where(c => c is T);
+            foreach (var component in components)
+            {
+                component.OnDestroy();
+                listToRemove.Add(component);
+            }
+
+            foreach (var component in listToRemove)
+                Components.Remove(component);
+
             return this;
         }
 
         public T GetComponent<T>() where T : BaseComponent
         {
             var component = Components.FirstOrDefault(c => c is T);
-            return (T) component;
+            return (T)component;
+        }
+
+        public List<T> GetComponents<T>() where T : BaseComponent
+        {
+            var components = Components.Where(c => c is T);
+            return (List<T>)components;
         }
     }
 }

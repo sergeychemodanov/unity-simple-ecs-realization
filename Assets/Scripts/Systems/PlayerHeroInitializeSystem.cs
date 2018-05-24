@@ -2,11 +2,11 @@
 {
     public class PlayerHeroInitializeSystem : BaseSystem
     {
-        public PlayerHeroInitializeSystem(EntityManager entityManager, Globals globals)
+        public PlayerHeroInitializeSystem(EntityManager entityManager, Configs configs)
         {
             entityManager.Create()
                 .AddComponent(new PlayerHeroComponent())
-                .AddComponent(new SceneObjectComponent(globals.PlayerHeroPrefab))
+                .AddComponent(new SceneObjectComponent(configs.PlayerHeroPrefab))
                 .AddComponent(new MovementComponent(5f));
         }
     }

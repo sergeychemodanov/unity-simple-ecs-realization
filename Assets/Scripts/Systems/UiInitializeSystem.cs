@@ -9,32 +9,36 @@ namespace SurvivalExample
     {
         private readonly EntityManager _entityManager;
         private readonly EventManager _eventManager;
-        private readonly Globals _globals;
+        private readonly Configs _configs;
         private readonly Transform _canvasGo;
 
-        public UiInitializeSystem(EntityManager entityManager, EventManager eventManager, Globals globals)
+        public UiInitializeSystem(EntityManager entityManager, EventManager eventManager, Configs configs)
         {
             _entityManager = entityManager;
             _eventManager = eventManager;
-            _globals = globals;
-            var uiCamera = entityManager.Entities
+            _configs = configs;
+
+            var uiCameraEntity = entityManager.Entities
                 .WithComponent<UiCameraComponent>()
                 .WithComponent<SceneObjectComponent>().FirstOrDefault();
 
-            if (uiCamera == null)
+            if (uiCameraEntity == null)
                 return;
 
-            var uiCameraGo = uiCamera.GetComponent<SceneObjectComponent>().GameObject;
-            _canvasGo = uiCameraGo.transform.GetChild(1);
+            var uiCameraGo = uiCameraEntity.GetComponent<SceneObjectComponent>().GameObject;
+            if (uiCameraGo.transform.childCount <= 0)
+                return;
+
+            _canvasGo = uiCameraGo.transform.GetChild(0);
+
             CreateButton("Floor", OnFloorClicked, new Vector2(20, -20));
             CreateButton("Build", OnBuildClick, new Vector2(70, -20));
-            
         }
 
         private void CreateButton(string name, UnityAction onClick, Vector2 offset)
         {
             var buttonEntity = _entityManager.Create()
-                .AddComponent(new SceneObjectComponent(_globals.UiButtonPrefab, _canvasGo));
+                .AddComponent(new SceneObjectComponent(_configs.UiButtonPrefab, _canvasGo));
 
             var buttonGameObject = buttonEntity.GetComponent<SceneObjectComponent>().GameObject;
             var button = buttonGameObject.GetComponent<Button>();

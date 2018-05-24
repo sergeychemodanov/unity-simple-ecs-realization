@@ -2,9 +2,9 @@
 {
     public class LevelInitializeSystem : BaseSystem
     {
-        public LevelInitializeSystem(EntityManager entityManager, Globals globals)
+        public LevelInitializeSystem(EntityManager entityManager, Configs configs)
         {
-            entityManager.Create().AddComponent(new SceneObjectComponent(globals.GroundPrefab));
+            entityManager.Create().AddComponent(new SceneObjectComponent(configs.GroundPrefab));
         }
     }
 }

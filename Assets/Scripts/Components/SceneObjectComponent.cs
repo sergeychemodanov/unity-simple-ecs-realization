@@ -7,10 +7,22 @@ namespace SurvivalExample
         public GameObject Prefab { get; private set; }
         public GameObject GameObject { get; private set; }
 
-        public SceneObjectComponent(GameObject prefab, Transform parent = null, bool worldPositionStays = false)
+        public SceneObjectComponent(GameObject prefab, Transform parent = null)
         {
             Prefab = prefab;
-            GameObject = Object.Instantiate(prefab, parent, worldPositionStays);
+            GameObject = Object.Instantiate(prefab, parent, false);
+        }
+
+        public SceneObjectComponent(GameObject prefab, Vector3 position, Transform parent = null)
+        {
+            Prefab = prefab;
+            GameObject = Object.Instantiate(prefab, parent, false);
+            GameObject.transform.position = position;
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            GameObject.transform.position = position;
         }
 
         public override void OnDestroy()

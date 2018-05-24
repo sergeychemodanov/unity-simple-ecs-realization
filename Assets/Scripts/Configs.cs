@@ -3,9 +3,10 @@
 namespace SurvivalExample
 {
     [CreateAssetMenu]
-    public class Globals : ScriptableObject
+    public class Configs : ScriptableObject
     {
         public GameObject GroundPrefab;
+        public GameObject BuildingZoneCellPrefab;
         public GameObject FloorCanBuildedPrefab;
         public GameObject FloorBuildedPrefab;
         public GameObject PlayerHeroPrefab;
@@ -14,6 +15,6 @@ namespace SurvivalExample
         public GameObject UiButtonPrefab;
 
         public Vector3 BuildingZoneSize;
-        public float MinBuildingDistance;
+        public float CellSize;
     }
 }

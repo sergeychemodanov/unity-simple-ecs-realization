@@ -6,18 +6,20 @@ namespace SurvivalExample
     public class BuildSystem : BaseSystem
     {
         private readonly EntityManager _entityManager;
-        private readonly Globals _globals;
+        private readonly Configs _configs;
         private readonly Transform _playerHeroTransform;
 
         private bool _buildStarted;
-        private float _nearestCellDistance = 999f;
-        private BuildingZoneCellComponent _nearestCell;
-        private BaseEntity _nearestCellEntity;
 
-        public BuildSystem(EntityManager entityManager, EventManager eventManager, Globals globals)
+        private BaseEntity _nearestCellEntity;
+        private BuildingZoneCellComponent _nearestCell;
+        private float _nearestCellDistance = float.MaxValue;
+
+
+        public BuildSystem(EntityManager entityManager, EventManager eventManager, Configs configs)
         {
             _entityManager = entityManager;
-            _globals = globals;
+            _configs = configs;
 
             var playerHeroEntity = _entityManager.Entities
                 .WithComponent<PlayerHeroComponent>()
@@ -33,39 +35,68 @@ namespace SurvivalExample
         public override void Update()
         {
             base.Update();
+
             if (!_buildStarted || _playerHeroTransform == null)
                 return;
 
             if (_nearestCellEntity != null)
             {
-                var distance = Vector3.Distance(_playerHeroTransform.position, _nearestCell.Position);
-                if (distance > _globals.MinBuildingDistance)
-                    ClearSceneObjectComponent(_nearestCellEntity);
+                var playerForwardPosition = _playerHeroTransform.position + _playerHeroTransform.forward;
+                _nearestCellDistance = Vector3.Distance(playerForwardPosition, _nearestCell.Position);
+                if (_nearestCellDistance > _configs.CellSize)
+                {
+                    AddBuildingCellSceneObject();
+                    ClearNearestCell();
+                }
             }
 
-            var cells = _entityManager.Entities.WithComponent<BuildingZoneCellComponent>();
-            foreach (var cell in cells)
+            GetNearestCell();
+        }
+
+
+        private void GetNearestCell()
+        {
+            var cellsEntities = _entityManager.Entities.WithComponent<BuildingZoneCellComponent>();
+
+            foreach (var cellEntity in cellsEntities)
             {
-                var cellComponent = cell.GetComponent<BuildingZoneCellComponent>();
-                var distance = Vector3.Distance(_playerHeroTransform.position, cellComponent.Position);
-                if (distance > _globals.MinBuildingDistance)
+                var cell = cellEntity.GetComponent<BuildingZoneCellComponent>();
+
+                if (_nearestCellEntity != null && _nearestCell == cell)
                     continue;
 
-                if (distance > _nearestCellDistance)
+                var playerForwardPosition = _playerHeroTransform.position + _playerHeroTransform.forward;
+                var distance = Vector3.Distance(playerForwardPosition, cell.Position);
+                if (distance > _configs.CellSize || distance > _nearestCellDistance)
                     continue;
 
-                var cellFloorComponent = cell.GetComponent<FloorComponent>();
+                var cellFloorComponent = cellEntity.GetComponent<FloorComponent>();
                 if (cellFloorComponent != null)
                     continue;
 
                 if (_nearestCellEntity != null)
-                    ClearSceneObjectComponent(_nearestCellEntity);
+                    AddBuildingCellSceneObject();
 
-                _nearestCell = cellComponent;
                 _nearestCellDistance = distance;
-                _nearestCellEntity = cell;
-                _nearestCellEntity.AddComponent(new SceneObjectComponent(_globals.FloorCanBuildedPrefab));
+                _nearestCellEntity = cellEntity;
+                _nearestCell = cell;
+
+                _nearestCellEntity.RemoveComponents<SceneObjectComponent>();
+                _nearestCellEntity.AddComponent(new SceneObjectComponent(_configs.FloorCanBuildedPrefab, cell.Position));
             }
+        }
+
+        private void ClearNearestCell()
+        {
+            _nearestCellEntity = null;
+            _nearestCell = null;
+            _nearestCellDistance = float.MaxValue;
+        }
+
+        private void AddBuildingCellSceneObject()
+        {
+            _nearestCellEntity.RemoveComponents<SceneObjectComponent>();
+            _nearestCellEntity.AddComponent(new SceneObjectComponent(_configs.BuildingZoneCellPrefab, _nearestCell.Position));
         }
 
         private void OnStartBuild(StartBuildEvent eventData)
@@ -80,15 +111,11 @@ namespace SurvivalExample
                 return;
 
             _nearestCellEntity.AddComponent(new FloorComponent());
-            ClearSceneObjectComponent(_nearestCellEntity);
-            _nearestCellEntity.AddComponent(new SceneObjectComponent(_globals.FloorBuildedPrefab));
-        }
 
-        private void ClearSceneObjectComponent(BaseEntity entity)
-        {
-            var sceneObjectComponent = entity.GetComponent<SceneObjectComponent>();
-            if (sceneObjectComponent != null)
-                entity.RemoveComponent(sceneObjectComponent);
+            _nearestCellEntity.RemoveComponents<SceneObjectComponent>();
+            _nearestCellEntity.AddComponent(new SceneObjectComponent(_configs.FloorBuildedPrefab, _nearestCell.Position));
+
+            ClearNearestCell();
         }
     }
 }
